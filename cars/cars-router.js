@@ -5,7 +5,7 @@ const db = require("../data/dbConnection.js");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  db("cars")
+  db("car-dealer")
     .then((cars) => {
       res.json(cars);
     })
@@ -17,7 +17,7 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   const { id } = req.params;
 
-  db("cars")
+  db("car-dealer")
     .where({ id })
     .first()
     .then((car) => {
@@ -30,10 +30,10 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
   const carData = req.body;
-  db("cars")
+  db("car-dealer")
     .insert(carData)
     .then((ids) => {
-      db("cars")
+      db("car-dealer")
         .where({ id: ids[0] })
         .then((newCarEntry) => {
           res.status(201).json(newCarEntry);
@@ -48,7 +48,7 @@ router.put("/:id", (req, res) => {
   const { id } = req.params;
   const changes = req.body;
 
-  db("cars")
+  db("car-dealer")
     .where({ id })
     .update(changes)
     .then((count) => {
@@ -65,7 +65,7 @@ router.put("/:id", (req, res) => {
 
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
-  db("cars")
+  db("car-dealer")
     .where({ id })
     .del({ id })
     .then((deleted) => {
